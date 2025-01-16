@@ -13,7 +13,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Laracasts\Flash\Flash;
-use League\ISO3166\ISO3166;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 class AirlinesController extends Controller
@@ -36,7 +35,7 @@ class AirlinesController extends Controller
 
         return view('admin.airlines.index', [
             'airlines' => $airlines,
-            'country'  => new ISO3166(),
+            'countries' => Countries::getSelectList(),
         ]);
     }
 

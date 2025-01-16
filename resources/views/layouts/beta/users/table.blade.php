@@ -29,7 +29,7 @@
       <td align="center">
         @if(filled($user->country))
           <span class="flag-icon flag-icon-{{ $user->country }}"
-                title="{{ $country->alpha2($user->country)['name'] }}"></span>
+                title="{{ $countries[$user->country] }}"></span>
         @endif
       </td>
       <td class="text-center">{{ $user->airline->icao }}</td>

@@ -9,7 +9,6 @@ use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
-use League\ISO3166\ISO3166;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 class UserController extends Controller
@@ -45,7 +44,7 @@ class UserController extends Controller
             ->paginate();
 
         return view('users.index', [
-            'country' => new ISO3166(),
+            'countries' => Countries::getSelectList(),
             'users'   => $users,
         ]);
     }
