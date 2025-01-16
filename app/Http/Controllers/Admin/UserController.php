@@ -26,7 +26,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Laracasts\Flash\Flash;
-use League\ISO3166\ISO3166;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 class UserController extends Controller
@@ -53,7 +52,7 @@ class UserController extends Controller
 
         return view('admin.users.index', [
             'users'   => $users,
-            'country' => new ISO3166(),
+            'countries' => Countries::getSelectList(),
         ]);
     }
 
@@ -63,8 +62,6 @@ class UserController extends Controller
     public function create(): View
     {
         $airlines = $this->airlineRepo->selectBoxList();
-        $countries = collect((new ISO3166())->all())
-            ->mapWithKeys(fn ($item, $key) => [strtolower($item['alpha2']) => $item['name']]);
         $roles = $this->roleRepo->selectBoxList(false, true);
 
         return view('admin.users.create', [
@@ -72,8 +69,7 @@ class UserController extends Controller
             'pireps'    => null,
             'airlines'  => $airlines,
             'timezones' => Timezonelist::toArray(),
-            'country'   => new ISO3166(),
-            'countries' => $countries,
+            'countries' => Countries::getSelectList(),
             'airports'  => [],
             'ranks'     => Rank::all()->pluck('name', 'id'),
             'roles'     => $roles,
@@ -136,8 +132,6 @@ class UserController extends Controller
 
         $pireps = $this->pirepRepo->where('user_id', $id)->sortable(['submitted_at' => 'desc'])->paginate();
 
-        $countries = collect((new ISO3166())->all())->mapWithKeys(fn ($item, $key) => [strtolower($item['alpha2']) => $item['name']]);
-
         $airlines = $this->airlineRepo->selectBoxList();
         $roles = $this->roleRepo->selectBoxList(false, true);
         $avail_ratings = $this->getAvailTypeRatings($user);
@@ -154,8 +148,7 @@ class UserController extends Controller
         return view('admin.users.edit', [
             'user'          => $user,
             'pireps'        => $pireps,
-            'country'       => new ISO3166(),
-            'countries'     => $countries,
+            'countries'     => Countries::getSelectList(),
             'timezones'     => Timezonelist::toArray(),
             'airports'      => $airports,
             'airlines'      => $airlines,

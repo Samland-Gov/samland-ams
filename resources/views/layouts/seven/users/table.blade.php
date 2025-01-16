@@ -23,7 +23,7 @@
                     </a>
                     @if (filled($user->country))
                         <span class="fi fi-{{ $user->country }} ml-2"
-                            title="{{ $country->alpha2($user->country)['name'] }}"></span>
+                            title="{{ $countries[$user->country] }}"></span>
                     @endif
                 </td>
                 <td>{{ $user->airline->icao }}</td>
