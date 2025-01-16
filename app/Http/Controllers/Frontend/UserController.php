@@ -6,6 +6,7 @@ use App\Contracts\Controller;
 use App\Models\Enums\UserState;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Repositories\UserRepository;
+use App\Support\Countries;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
