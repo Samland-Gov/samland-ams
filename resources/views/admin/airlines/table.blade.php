@@ -16,7 +16,7 @@
         </td>
         <td nowrap="true">
           @if(filled($al->country))
-            <span class="flag-icon flag-icon-{{ $al->country }}" title="{{ $countries($al->country) }}"></span>
+            <span class="flag-icon flag-icon-{{ $al->country }}" title="{{ $countries[$al->country] }}"></span>
           @endif
         </td>
         <td>{{ $al->iata }}</td>
