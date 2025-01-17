@@ -7,14 +7,26 @@
  */
 
 const leaflet = require('leaflet');
-require('leaflet-providers');
+
+function setScale(map, zoom) {
+  scale = (1 / Math.pow(2, zoom));
+  // store this on map for ellipse
+  map.options.scale = this.scale;
+}
 
 export default (_opts) => {
+  const url = "https://files.minersonline.uk/tiles/m_cmp1/tiles/minecraft_overworld/{z}/{x}_{y}.png";
+  const zoom = {
+    def: 3,
+    max: 5,
+    extra: 7
+  };
+
   const opts = Object.assign({
     render_elem: 'map',
-    center: [29.98139, -95.33374],
-    zoom: 5,
-    maxZoom: 10,
+    center: [0, 0], // Minecraft world centre (adjust as needed)
+    zoom: zoom.def,        // Initial zoom level
+    maxZoom: zoom.max + zoom.extra,    // Adjust based on your SquareMap configuration
     layers: [],
     set_marker: false,
     leafletOptions: {},
@@ -24,23 +36,31 @@ export default (_opts) => {
     center: opts.center,
     zoom: opts.zoom,
     scrollWheelZoom: false,
+    noWrap: true,
     providers: {},
+    crs: leaflet.CRS.Simple, // Set CRS to simple for grid-based maps
   }, opts.leafletOptions);
 
-  // Check if any providers are listed; if not, set the default
-  if (Object.entries(leafletOptions.providers).length === 0) {
-    leafletOptions.providers = {
-      'Esri.WorldStreetMap': {},
-    };
-  }
+  // Replace the provider configuration with SquareMap tiles
+  leafletOptions.providers = {
+    customMinecraftMap: {
+      url: url,
+      options: {
+        minNativeZoom: 0,
+        maxNativeZoom: zoom.max + zoom.extra,
+        tileSize: 512,
+        attribution: 'Copyright &copy; 2017 - 2025 Samland Government & Miners Online',
+      },
+    },
+  };
 
-  const map = leaflet.map('map', leafletOptions);
+  const map = leaflet.map(opts.render_elem, leafletOptions);
+  setScale(map, zoom.max);
 
-  // eslint-disable-next-line guard-for-in,no-restricted-syntax
+  // Add the custom tile layer
   for (const key in leafletOptions.providers) {
-    leaflet.tileLayer
-      .provider(key, leafletOptions.providers[key])
-      .addTo(map);
+    const provider = leafletOptions.providers[key];
+    leaflet.tileLayer(provider.url, provider.options).addTo(map);
   }
 
   return map;
