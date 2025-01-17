@@ -11,7 +11,7 @@ const leaflet = require('leaflet');
 function setScale(map, zoom) {
   scale = (1 / Math.pow(2, zoom));
   // store this on map for ellipse
-  map.options.scale = this.scale;
+  map.options.scale = scale;
 }
 
 export default (_opts) => {
