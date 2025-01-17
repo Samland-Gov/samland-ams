@@ -10,7 +10,8 @@ import draw_base_map from './base_map';
 import { ACTUAL_ROUTE_COLOR } from './config';
 
 import request from '../request';
-import {LatLng} from "leaflet/dist/leaflet-src.esm";
+import { LatLng } from "leaflet/dist/leaflet-src.esm";
+import { toLatLng } from './minecraft';
 
 // const geolib = require('geolib');
 const leaflet = require('leaflet');
@@ -23,9 +24,9 @@ const rivets = require('rivets');
  */
 export default (_opts) => {
   const opts = Object.assign({
-    center: [29.98139, -95.33374],
+    center: [0, 0],
     refresh_interval: 10, // seconds
-    zoom: 5,
+    zoom: 3,
     acars_uri: '/api/acars',
     update_uri: '/api/acars/geojson',
     pirep_uri: '/api/pireps/{id}',
@@ -87,10 +88,7 @@ export default (_opts) => {
 
     // Center on it, but only do it once, in case the map is moved
     if (!pannedToFlight) {
-      map.panTo({
-        lat: route.position.lat,
-        lng: route.position.lon,
-      });
+      map.panTo(toLatLng(route.position.lat, route.position.lon, map));
 
       pannedToFlight = true;
     }

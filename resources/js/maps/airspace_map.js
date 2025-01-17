@@ -8,6 +8,8 @@
 import draw_base_map from './base_map';
 import { addWMSLayer } from './helpers';
 
+import { toLatLng } from './minecraft';
+
 const leaflet = require('leaflet');
 
 /**
@@ -34,7 +36,7 @@ export default (_opts) => {
   }, _opts);
 
   const map = draw_base_map(opts);
-  const coords = [opts.lat, opts.lon];
+  const coords = toLatLng(opts.lat, opts.lon, map);
   console.log('Applying coords', coords);
 
   map.setView(coords, opts.zoom);
