@@ -26,7 +26,7 @@ export default (_opts) => {
     render_elem: 'map',
     center: [0, 0], // Minecraft world centre (adjust as needed)
     zoom: zoom.def,        // Initial zoom level
-    maxZoom: zoom.max + zoom.extra,    // Adjust based on your SquareMap configuration
+    maxZoom: zoom.max,    // Adjust based on your SquareMap configuration
     layers: [],
     set_marker: false,
     leafletOptions: {},
@@ -47,7 +47,7 @@ export default (_opts) => {
       url: url,
       options: {
         minNativeZoom: 0,
-        maxNativeZoom: zoom.max + zoom.extra,
+        maxNativeZoom: zoom.max,
         tileSize: 512,
         attribution: 'Copyright &copy; 2017 - 2025 Samland Government & Miners Online',
       },
