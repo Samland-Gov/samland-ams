@@ -9,6 +9,8 @@ import draw_base_map from './base_map';
 import { addWMSLayer } from './helpers';
 import request from '../request';
 
+import { translateGeoJSON } from './minecraft';
+
 import { ACTUAL_ROUTE_COLOR, CIRCLE_COLOR, PLAN_ROUTE_COLOR } from './config';
 
 const leaflet = require('leaflet');
@@ -88,7 +90,7 @@ export default (_opts) => {
     wrap: false,
   }).addTo(map);
 
-  plannedRouteLayer.fromGeoJson(opts.planned_route_line);
+  plannedRouteLayer.fromGeoJson(translateGeoJSON(opts.planned_route_line));
 
   try {
     map.fitBounds(plannedRouteLayer.getBounds());
@@ -98,7 +100,7 @@ export default (_opts) => {
 
   // Draw the route points after
   if (opts.route_points !== null) {
-    const route_points = leaflet.geoJSON(opts.route_points, {
+    const route_points = leaflet.geoJSON(translateGeoJSON(opts.route_points), {
       onEachFeature: onFeaturePointClick,
       pointToLayer,
       style: {

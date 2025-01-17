@@ -11,7 +11,7 @@ import { ACTUAL_ROUTE_COLOR } from './config';
 
 import request from '../request';
 import { LatLng } from "leaflet/dist/leaflet-src.esm";
-import { toLatLng } from './minecraft';
+import { translateGeoJSON, toLatLng } from './minecraft';
 
 // const geolib = require('geolib');
 const leaflet = require('leaflet');
@@ -82,7 +82,7 @@ export default (_opts) => {
       wrap: false,
     }).addTo(map);
 
-    layerSelFlight.fromGeoJson(route.line);
+    layerSelFlight.fromGeoJson(translateGeoJSON(route.line));
     layerSelFlightFeature = feature;
     layerSelFlightLayer = layer;
 
@@ -153,7 +153,7 @@ export default (_opts) => {
     });
 
     request({ url: opts.update_uri }).then((response) => {
-      const flightGeoJson = response.data.data;
+      const flightGeoJson = translateGeoJSON(response.data.data);
 
       if (layerFlights !== null) {
         layerFlights.clearLayers();
