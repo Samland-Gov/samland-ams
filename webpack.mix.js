@@ -99,6 +99,7 @@ function buildGlobalAssets()
     'node_modules/leaflet/dist/leaflet.css',
     'node_modules/flag-icon-css/css/flag-icon.css',
     'node_modules/cookieconsent/build/cookieconsent.min.css',
+    'resources/samland/index.css'
   ], 'public/assets/global/css/vendor.css')
     .options({
       //processCssUrls: true,
